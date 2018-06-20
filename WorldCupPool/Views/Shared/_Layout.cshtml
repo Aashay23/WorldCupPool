@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WorldCupPool</title>
+    <title>@ViewData["Title"]</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -31,20 +31,26 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Pool" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Pool" asp-action="Standings">Standings</a></li>
+                    <li><a asp-area="" asp-controller="Pool" asp-action="Bets">Bets</a></li>
+                    <li><a asp-area="" asp-controller="Pool" asp-action="Teams">Teams</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - WorldCupPool</p>
-        </footer>
+    <div class="container-fluid text-center">
+           <div style="height:20px"></div>
+           <img src="~/images/worldcup.jpg" style="width:100px;height:100px;"/>
+<!--           <div class="col-sm-8">
+                <h1>Purdue World Cup Pool</h1>
+           </div>-->
+           @RenderBody()
     </div>
 
+    <footer class="navbar navbar-fixed-bottom container-fluid text-center" >
+            <p>&copy; 2018 - Purdue World Cup Pool</p>
+    </footer>
+        
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

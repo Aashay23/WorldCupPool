@@ -15,4 +15,7 @@
   <ItemGroup>
     <Folder Include="Views\Pool\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\Middleware.cs" />
+  </ItemGroup>
 </Project>

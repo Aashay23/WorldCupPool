@@ -1,0 +1,56 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Purdue World Cup Pool - Teams";
+}
+
+<div style="height: 50px"></div>
+<div class="col-sm-2"></div>
+<div class="container-fluid col-sm-8">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: center">Team</th>
+                <th scope="col" style="text-align: center">Cost</th>
+                <th scope="col" style="text-align: left">Performance</th>
+                <th scope="col" style="text-align: center">Points</th>
+                @{
+                    if (Model.isAdmin){
+                        <th style="text-align: center" id="colHeadAdmin">Admin</th>
+                    }
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach(var team in Model.Teams)
+                {
+                    <tr>
+                        <td align="center">@team.Name</td>
+                        <td align="center">@team.Cost</td>
+                        <td align="left">@string.Join(", ", @team.Performance)</td>
+                        <td align="center">@team.Points</td>
+                        @{
+                            if (Model.isAdmin){
+                                <td align="center" id="rowDataAdmin">
+                                    <select>
+                                        @{
+                                            foreach(var rule in Model.PerformanceRules)
+                                            {
+                                                <option>@rule</option>
+                                            }
+                                        }
+                                    </select>
+                                    <button class="btn btn-default" style="margin-left:10px; height:25px">Update</button>
+                                </td>
+                            }
+                        }
+                    </tr>
+
+                }
+            }
+        </tbody>
+    </table> 
+</div>
