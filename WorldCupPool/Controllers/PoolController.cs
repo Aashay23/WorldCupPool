@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WorldCupPool.Models;
+using WorldCupPool.Services;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,6 +13,10 @@ namespace WorldCupPool.Controllers
 {
     public class PoolController : Controller
     {
+        DataAccess dataAccess = new DataAccess();
+        TeamService teamService = new TeamService();
+        BetService betService = new BetService();
+
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -20,14 +25,8 @@ namespace WorldCupPool.Controllers
 
         public IActionResult Teams([FromQuery] string id)
         {
-            Team arg = new Team("Argentina", 40);
-            Team aus = new Team("Australia", 1);
-
-            List<Team> teams = new List<Team>()
-            {
-                arg,
-                aus
-            };
+            
+            var teams = teamService.GetTeams();
 
             dynamic model = new ExpandoObject();
             model.Teams = teams;
@@ -47,49 +46,14 @@ namespace WorldCupPool.Controllers
 
         public IActionResult Bets()
         {
-            Bet aashay = new Bet("Aashay", new List<string>()
-            {
-                "Brazil",
-                "Portugal"
-            });
-            Bet adit = new Bet("Adit", new List<string>()
-            {
-                "Belgium",
-                "Germany"
-            });
-
-            List<Bet> bets = new List<Bet>()
-            {
-                aashay,
-                adit
-            };
-
+            var bets = betService.GetBets();
             return View("Bets", bets);
         }
 
         public IActionResult Standings([FromQuery] string id)
         {
-            Bet aashay = new Bet("Aashay", new List<string>()
-            {
-                "Brazil",
-                "Portugal"
-            }, 2);
-            Bet adit = new Bet("Adit", new List<string>()
-            {
-                "Belgium",
-                "Germany"
-            }, 3);
-
-            List<Bet> bets = new List<Bet>()
-            {
-                aashay,
-                adit
-            };
-
-            var standings = bets.OrderByDescending(b => b.TotalPoints).ToList();
-
             dynamic model = new ExpandoObject();
-            model.Standings = standings;
+            model.Standings = betService.GetStandings();
 
             if (id == "2312")
             {

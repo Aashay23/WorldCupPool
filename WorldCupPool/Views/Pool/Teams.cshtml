@@ -5,6 +5,25 @@
     ViewData["Title"] = "Purdue World Cup Pool - Teams";
 }
 
+<script>
+    function addPerformance(teamName) {
+        var performance = document.getElementById("gameResult_"+teamName).value;
+        $.getJSON("/PoolService/AddTeamPerformance", 
+            {teamName: teamName, performance: performance},
+            function(result){
+    
+                var perf_team = "performance_"+teamName;
+                var performanceResult = result.performance.join(", ");
+                var colPerformance = document.getElementById(perf_team);
+                colPerformance.innerHTML = performanceResult;
+    
+                var points_team = "points_"+teamName;
+                var colPoints = document.getElementById(points_team);
+                colPoints.innerHTML = result.points;
+            });
+    }
+</script>
+
 <div style="height: 50px"></div>
 <div class="col-sm-2"></div>
 <div class="container-fluid col-sm-8">
@@ -28,14 +47,14 @@
                 foreach(var team in Model.Teams)
                 {
                     <tr>
-                        <td align="center">@team.Name</td>
+                        <td align="center" id="team_@(team.Name)">@team.Name</td>
                         <td align="center">@team.Cost</td>
-                        <td align="left">@string.Join(", ", @team.Performance)</td>
-                        <td align="center">@team.Points</td>
+                        <td align="left" id="performance_@(team.Name)">@string.Join(", ", @team.Performance)</td>
+                        <td align="center" id="points_@(team.Name)">@team.Points</td>
                         @{
                             if (Model.isAdmin){
                                 <td align="center" id="rowDataAdmin">
-                                    <select>
+                                    <select id="gameResult_@(team.Name)">
                                         @{
                                             foreach(var rule in Model.PerformanceRules)
                                             {
@@ -43,7 +62,7 @@
                                             }
                                         }
                                     </select>
-                                    <button class="btn btn-default" style="margin-left:10px; height:25px">Update</button>
+                                    <button class="btn btn-default" style="margin-left:10px; height:25px" onclick="addPerformance('@team.Name')">Update</button>
                                 </td>
                             }
                         }
